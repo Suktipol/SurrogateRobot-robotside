@@ -1,0 +1,7 @@
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\bin\Debug\SurrogateRobot_receiveData.exe.config
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\bin\Debug\SurrogateRobot_receiveData.exe
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\bin\Debug\SurrogateRobot_receiveData.pdb
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\obj\Debug\SurrogateRobot_receiveData.csprojAssemblyReference.cache
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\obj\Debug\SurrogateRobot_receiveData.csproj.CoreCompileInputs.cache
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\obj\Debug\SurrogateRobot_receiveData.exe
+C:\Users\Tengbuk\source\repos\SurrogateRobot_receiveData\SurrogateRobot_receiveData\obj\Debug\SurrogateRobot_receiveData.pdb
