@@ -15,7 +15,7 @@ namespace SurrogateRobot_receiveData
         Thread receiveThread, receiveThread2;
         UdpClient udpClient;
         //SerialPort _serialPort = new SerialPort("COM3", 115200);
-        string TCP_SERVER_IP = "192.168.1.167";
+        string TCP_SERVER_IP = "192.168.1.204";
         int TCP_port = 8051;
         int UDP_port = 8052;
 
@@ -112,7 +112,7 @@ namespace SurrogateRobot_receiveData
             catch (SocketException socketException)
             {
                 Console.WriteLine("Socket exception: " + socketException);
-                socketConnection.Close();
+                //socketConnection.Close();
             }
         }
     }
