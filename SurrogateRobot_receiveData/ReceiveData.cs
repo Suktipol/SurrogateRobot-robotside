@@ -14,7 +14,7 @@ namespace SurrogateRobot_receiveData
     {
         Thread receiveThread, receiveThread2;
         UdpClient udpClient;
-        //SerialPort _serialPort = new SerialPort("COM3", 115200);
+        SerialPort _serialPort = new SerialPort("COM3", 115200);
         string TCP_SERVER_IP = "192.168.1.204";
         int TCP_port = 8051;
         int UDP_port = 8052;
@@ -25,7 +25,7 @@ namespace SurrogateRobot_receiveData
         {
             ReceiveData receiver = new ReceiveData();
             receiver.init();
-            //receiver._serialPort.Open();
+            receiver._serialPort.Open();
             while (true)
             {
                 //Loop to wait the incomming data.
@@ -58,7 +58,7 @@ namespace SurrogateRobot_receiveData
                     /*File.AppendAllText(path, text + "\n");*/
                     if (text != null)
                         Console.WriteLine("UDP message : " + text.ToString());
-                    //_serialPort.WriteLine(text.ToString());
+                        _serialPort.WriteLine(text.ToString());
 
                 }
                 catch (Exception err)
@@ -96,13 +96,7 @@ namespace SurrogateRobot_receiveData
                             string serverMessage = Encoding.ASCII.GetString(incommingData);
                             Console.WriteLine("TCP message : " + serverMessage);
 
-                            /*if (string.Equals("quit", serverMessage))
-                            {
-                                Console.WriteLine("Closing serial communication.");
-                                _serialPort.Close();
-                            }*/
-
-                            //_serialPort.WriteLine(serverMessage);
+                            _serialPort.WriteLine(serverMessage);
                         }
                     }
                     
