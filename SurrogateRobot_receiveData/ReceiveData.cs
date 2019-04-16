@@ -14,10 +14,16 @@ namespace SurrogateRobot_receiveData
     {
         Thread receiveThread, receiveThread2;
         UdpClient udpClient;
-        SerialPort _serialPort = new SerialPort("COM3", 115200);
-        string TCP_SERVER_IP = "192.168.1.204";
+        //SerialPort _serialPort = new SerialPort("COM3", 115200);
+        string TCP_SERVER_IP = "192.168.1.195";
         int TCP_port = 8051;
         int UDP_port = 8052;
+
+        string udpMessage = "0,0,0";
+        string tcpMessage = "0";
+
+        bool isReceiveUdpMessage;
+        bool isReceiveTcpMessage;
 
         string path;
 
@@ -25,10 +31,22 @@ namespace SurrogateRobot_receiveData
         {
             ReceiveData receiver = new ReceiveData();
             receiver.init();
-            receiver._serialPort.Open();
+            //receiver._serialPort.Open();
             while (true)
             {
-                //Loop to wait the incomming data.
+                if (receiver.isReceiveUdpMessage == true && receiver.isReceiveTcpMessage == false)
+                {
+                    string messageSerial = '(' + receiver.udpMessage + ",0)/";
+                    Console.WriteLine(messageSerial);
+                    receiver.isReceiveUdpMessage = false;
+                }
+                else if (receiver.isReceiveUdpMessage == false && receiver.isReceiveTcpMessage == true)
+                {
+                    string messageSerial = '(' + receiver.udpMessage + ',' + receiver.tcpMessage + ")/";
+                    Console.WriteLine(messageSerial);
+                    receiver.isReceiveTcpMessage = false;
+                }
+
             }        
         }
 
@@ -52,13 +70,8 @@ namespace SurrogateRobot_receiveData
                 {
                     IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                     byte[] data = udpClient.Receive(ref anyIP);
-                    string text = Encoding.ASCII.GetString(data);
-
-                    //Save data to evaluation
-                    /*File.AppendAllText(path, text + "\n");*/
-                    if (text != null)
-                        Console.WriteLine("UDP message : " + text.ToString());
-                        _serialPort.WriteLine(text.ToString());
+                    udpMessage = Encoding.ASCII.GetString(data);
+                    isReceiveUdpMessage = true;
 
                 }
                 catch (Exception err)
@@ -93,10 +106,8 @@ namespace SurrogateRobot_receiveData
                             Array.Copy(bytes, 0, incommingData, 0, length);
 
                             // serverMessage is a message from user side's computer.
-                            string serverMessage = Encoding.ASCII.GetString(incommingData);
-                            Console.WriteLine("TCP message : " + serverMessage);
-
-                            _serialPort.WriteLine(serverMessage);
+                            tcpMessage = Encoding.ASCII.GetString(incommingData);
+                            isReceiveTcpMessage = true;
                         }
                     }
                     
