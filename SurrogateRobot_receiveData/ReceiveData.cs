@@ -14,8 +14,8 @@ namespace SurrogateRobot_receiveData
     {
         Thread receiveThread, receiveThread2;
         UdpClient udpClient;
-        SerialPort _serialPort = new SerialPort("COM3", 115200);
-        string TCP_SERVER_IP = "10.61.5.128";
+        //SerialPort _serialPort = new SerialPort("COM3", 115200);
+        string TCP_SERVER_IP = "192.168.43.96";
         int TCP_port = 8051;
         int UDP_port = 8052;
 
@@ -31,21 +31,21 @@ namespace SurrogateRobot_receiveData
         {
             ReceiveData receiver = new ReceiveData();
             receiver.init();
-            receiver._serialPort.Open();
+            //receiver._serialPort.Open();
             while (true)
             {
                 if (receiver.isReceiveUdpMessage == true && receiver.isReceiveTcpMessage == false)
                 {
                     string messageSerial = '(' + receiver.udpMessage + ",0)/";
                     Console.WriteLine(messageSerial);
-                    receiver._serialPort.WriteLine(messageSerial);
+                    //receiver._serialPort.WriteLine(messageSerial);
                     receiver.isReceiveUdpMessage = false;
                 }
                 else if (receiver.isReceiveUdpMessage == false && receiver.isReceiveTcpMessage == true)
                 {
                     string messageSerial = '(' + receiver.udpMessage + ',' + receiver.tcpMessage + ")/";
                     Console.WriteLine(messageSerial);
-                    receiver._serialPort.WriteLine(messageSerial);
+                    //receiver._serialPort.WriteLine(messageSerial);
                     receiver.isReceiveTcpMessage = false;
                 }
 
@@ -78,7 +78,9 @@ namespace SurrogateRobot_receiveData
                 }
                 catch (Exception err)
                 {
+                    udpClient.Close();
                     Console.WriteLine("Robot Error :" + err.ToString());
+                    UDPReceiveData();
                     udpClient.Close();
                 }
             }
@@ -111,13 +113,21 @@ namespace SurrogateRobot_receiveData
                             isReceiveTcpMessage = true;
                         }
                     }
-                    
+
                 }
                 socketConnection.Close();
             }
-            catch (SocketException socketException)
+            catch (SocketException socketException)   // Reconnect the server
+            { 
+                TCPReceiveData();
+                Console.WriteLine("Reconnecting the TCP server");
+                Thread.Sleep(2000);
+            }
+            catch (InvalidOperationException invalidException)
             {
-                Console.WriteLine("Socket exception: " + socketException);
+                TCPReceiveData();
+                Console.WriteLine("Reconnecting the TCP server");
+                Thread.Sleep(2000);
             }
         }
     }
