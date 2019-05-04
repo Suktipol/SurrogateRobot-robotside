@@ -14,8 +14,8 @@ namespace SurrogateRobot_receiveData
     {
         Thread receiveThread, receiveThread2;
         UdpClient udpClient;
-        //SerialPort _serialPort = new SerialPort("COM3", 115200);
-        string TCP_SERVER_IP = "192.168.1.195";
+        SerialPort _serialPort = new SerialPort("COM3", 115200);
+        string TCP_SERVER_IP = "10.61.5.128";
         int TCP_port = 8051;
         int UDP_port = 8052;
 
@@ -31,19 +31,21 @@ namespace SurrogateRobot_receiveData
         {
             ReceiveData receiver = new ReceiveData();
             receiver.init();
-            //receiver._serialPort.Open();
+            receiver._serialPort.Open();
             while (true)
             {
                 if (receiver.isReceiveUdpMessage == true && receiver.isReceiveTcpMessage == false)
                 {
                     string messageSerial = '(' + receiver.udpMessage + ",0)/";
                     Console.WriteLine(messageSerial);
+                    receiver._serialPort.WriteLine(messageSerial);
                     receiver.isReceiveUdpMessage = false;
                 }
                 else if (receiver.isReceiveUdpMessage == false && receiver.isReceiveTcpMessage == true)
                 {
                     string messageSerial = '(' + receiver.udpMessage + ',' + receiver.tcpMessage + ")/";
                     Console.WriteLine(messageSerial);
+                    receiver._serialPort.WriteLine(messageSerial);
                     receiver.isReceiveTcpMessage = false;
                 }
 
@@ -91,7 +93,6 @@ namespace SurrogateRobot_receiveData
 
             try
             {
-                //_serialPort.Open();
                 socketConnection = new TcpClient(TCP_SERVER_IP, TCP_port);
                 Console.WriteLine("TCP client is connected with the server");
                 Byte[] bytes = new Byte[1024];
@@ -117,7 +118,6 @@ namespace SurrogateRobot_receiveData
             catch (SocketException socketException)
             {
                 Console.WriteLine("Socket exception: " + socketException);
-                //socketConnection.Close();
             }
         }
     }
